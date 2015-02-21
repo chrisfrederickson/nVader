@@ -178,10 +178,56 @@ public class TestMap : MonoBehaviour
 		map.ShowGUIControls = true;
 		map.IsDirty = true;
 		map.UpdateCenterWithLocation = true;
+<<<<<<< HEAD
 		Debug.Log ("Use location? " + map.UseLocation);
 		UnityEngine.Input.location.Start ();
 		//while(UnityEngine.Input.location.status != LocationServiceStatus.Running)
 			Debug.Log("Waiting for location");
+=======
+		// Start service before querying location
+		Input.location.Start ();
+		Debug.Log ("Is location enabled by user?" + Input.location.isEnabledByUser);
+		Debug.Log ("Use location? " + map.UseLocation);
+		Debug.Log ("Is location running? " + (UnityEngine.Input.location.status == LocationServiceStatus.Running));
+
+
+		// Wait until service initializes
+		int maxWait = 5 * 100 * 1000/*ms*/* 1000;
+
+		Debug.Log ("Init? " + (Input.location.status
+			== LocationServiceStatus.Initializing));
+		
+		long secondsElapsed = DateTime.Now.Ticks;
+		Debug.Log (DateTime.Now.Ticks+", "+secondsElapsed+", "+maxWait+", "+(DateTime.Now.Ticks - secondsElapsed)+", "+((DateTime.Now.Ticks - secondsElapsed) < maxWait));
+		while (Input.location.status
+		       == LocationServiceStatus.Initializing && (DateTime.Now.Ticks - secondsElapsed) < maxWait) {
+			//yield WaitForSeconds (1);
+			Debug.Log (DateTime.Now.Ticks+", "+secondsElapsed+", "+maxWait+", "+(DateTime.Now.Ticks - secondsElapsed)+", "+((DateTime.Now.Ticks - secondsElapsed) < maxWait));
+
+			//maxWait--;
+		}
+		// Service didn't initialize in 20 seconds
+		if ((DateTime.Now.Ticks - secondsElapsed) > maxWait) {
+			Debug.Log ("Timed out");
+			return false;
+		}
+		// Connection has failed
+		if (Input.location.status == LocationServiceStatus.Failed) {
+			Debug.Log ("Unable to determine device location");
+			return false ;
+		}
+		if(Input.location.status == LocationServiceStatus.Initializing) {
+			Debug.Log ("Didn't wait long enough");
+			return false;
+		}
+		if(Input.location.status == LocationServiceStatus.Stopped) {
+			Debug.Log ("Stopped service");
+			return false;
+		}
+		if(Input.location.status == LocationServiceStatus.Running) {
+			Debug.Log ("Location is active");
+		}
+>>>>>>> dfae518ff062e076caea4a0fd8d9156b70cb392a
 		Debug.Log ("Is location running? " + (UnityEngine.Input.location.status == LocationServiceStatus.Running));
 		Debug.Log ("Updating location? " + map.UpdateCenterWithLocation);
 		map.CenterOnLocation ();

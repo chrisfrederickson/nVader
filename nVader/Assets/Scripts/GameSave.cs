@@ -7,16 +7,16 @@ using System.IO;
 [System.Serializable]
 public class Savefile {
 	public static Savefile current; 
-	public List<Vector2> mines;
-	public int timePoints;
+	public List<Mine> mines;
+	public List<Resource> resources;
 
 	public Savefile() {
-		List<Vector2> mines = new List<Vector2>();
-		int timePoints = 0;
+		List<Mine> mines = new List<Mine>();
+		List<Resource> resources = new List<Resource>();
 	}
-	public Savefile(List<Vector2> m, int tp) {
+	public Savefile(List<Mine> m, List<Resource> tp) {
 		mines = m;
-		timePoints = tp;
+		resources = tp;
 	}
 }
 //From http://gamedevelopment.tutsplus.com/tutorials/how-to-save-and-load-your-players-progress-in-unity--cms-20934
@@ -31,11 +31,14 @@ public class GameSave {
 		bf.Serialize (file, Savefile.current);
 	}
 	public static void Load() {
-		if(File.Exists(Application.persistentDataPath + "/"+fileName+"."+fileExtension)) {
-			BinaryFormatter bf = new BinaryFormatter();
-			FileStream file = File.Open(Application.persistentDataPath + "/"+fileName+"."+fileExtension, FileMode.Open);
-			savedGame = (Savefile)bf.Deserialize(file);
-			file.Close();
+		if (File.Exists (Application.persistentDataPath + "/" + fileName + "." + fileExtension)) {
+			BinaryFormatter bf = new BinaryFormatter ();
+			FileStream file = File.Open (Application.persistentDataPath + "/" + fileName + "." + fileExtension, FileMode.Open);
+			savedGame = (Savefile)bf.Deserialize (file);
+			file.Close ();
+		} else {
+			savedGame = new Savefile();
+			Save ();
 		}
 	}
 }

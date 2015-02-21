@@ -20,8 +20,8 @@ Global
 <<<<<<< HEAD
 					GlobalSection(MonoDevelopProperties) = preSolution
 =======
-			GlobalSection(MonoDevelopProperties) = preSolution
->>>>>>> origin/master
+												GlobalSection(MonoDevelopProperties) = preSolution
+>>>>>>> dfae518ff062e076caea4a0fd8d9156b70cb392a
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1
