@@ -11,8 +11,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 var config = {
-    user: process.env.dbusername || "web",
-    password: process.env.dbpassword || "gNO3i8aN5VpsQB",
+    user: process.env.dbusername,
+    password: process.env.dbpassword,
     server: "jplzp8dar5.database.windows.net",
     database: "nVader",
     options: { encrypt: true }
@@ -43,7 +43,6 @@ sql.connect(config, function (err) {
         var easting = 0;
         var northing = 0;
         var xy = [];
-        //zone = gis.latLonToUTMXY(req.query.lat || -75.186532, req.query.lon || 39.955277, 100, xy);
         var pos = llUtm(req.query.lat || 39.955277, req.query.lon || -75.186532);
         zone = pos.zoneNumber;
         easting = pos.easting;
