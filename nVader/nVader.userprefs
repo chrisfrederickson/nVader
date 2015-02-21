@@ -1,19 +1,17 @@
 ﻿<Properties>
-<<<<<<< HEAD
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\TestScripts\TestMap.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GameplayController.cs">
     <Files>
-      <File FileName="Assets\Scripts\GameSave.cs" Line="14" Column="44" />
-      <File FileName="Assets\TestScripts\TestMap.cs" Line="179" Column="3" />
-      <File FileName="Assets\UnitySlippyMap\Layer\OSMTileLayer.cs" Line="67" Column="6" />
-      <File FileName="Assets\UnitySlippyMap\Input\Input.cs" Line="1" Column="1" />
-      <File FileName="Assets\UnitySlippyMap\Map.cs" Line="429" Column="23" />
+      <File FileName="Assets\Scripts\GameSave.cs" Line="15" Column="27" />
+      <File FileName="Assets\Scripts\GameplayController.cs" Line="79" Column="35" />
+      <File FileName="Assets\Scripts\Utils\Resource.cs" Line="5" Column="19" />
+      <File FileName="Assets\Scripts\Utils\TimeEnergy.cs" Line="5" Column="1" />
+      <File FileName="Assets\Scripts\Utils\Mine.cs" Line="25" Column="17" />
+      <File FileName="Assets\Scripts\Utils\Beacon.cs" Line="4" Column="25" />
+      <File FileName="Assets\Scripts\Utils\Landmark.cs" Line="17" Column="16" />
+      <File FileName="Assets\TestScripts\TestMap.cs" Line="22" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
-=======
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench />
->>>>>>> origin/master
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
