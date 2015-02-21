@@ -13,11 +13,16 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class GameplayController : MonoBehaviour {
+	void Awake() {
+		// Forces a different code path in the BinaryFormatter that doesn't rely on run-time code generation (which would break on iOS).
+		Environment.SetEnvironmentVariable("MONO_REFLECTION_SERIALIZER", "yes");
+	}
 	private Text MinesLeft; //Unused
 	public int MineInventory = 3;
 	public float LocationAccuracy = 0.01f; 
 	public Button HarvestMine;
 	private Marker BeaconMarker;
+	private List<Marker> MineMarkers;
 
 	// Use this for initialization
 	void Start () {
@@ -26,15 +31,16 @@ public class GameplayController : MonoBehaviour {
 		GameSave.Save ();
 		UpdateMineInventory ();
 		HarvestMine.enabled = false;
-		//TODO Insert mine markers
+		InsertMineMarkers ();
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update2 () {
 		UpdateMap ();
 		if (!IsLocationEnabled()) 
 			return;
-
+		Debug.Log (MinesLeft + " mines left");
+		Debug.Log (GetMinesLeft ());
 		if (Input.GetButtonDown ("Mine") && GetMinesLeft () != 0) {
 			PlaceMine("Name");
 			//TODO Get data about location
@@ -148,13 +154,13 @@ public class GameplayController : MonoBehaviour {
 		map = Map.Instance;
 		map.CurrentCamera = Camera.main;
 		map.InputDelegate += UnitySlippyMap.Input.MapInput.BasicTouchAndKeyboard;
-		map.CurrentZoom = 1.0f;
+		map.CurrentZoom = 30.0f;
 		// 9 rue Gentil, Lyon
 		//map.CenterWGS84 = new double[2] { 4.83527, 45.76487 };
 		//Now use GPS
 		
 		map.UseLocation = true;
-		map.InputsEnabled = true;
+		map.InputsEnabled = false;
 		map.ShowGUIControls = true;
 		map.IsDirty = true;
 		map.UpdateCenterWithLocation = true;
@@ -342,5 +348,16 @@ public class GameplayController : MonoBehaviour {
 	}
 	public void RemoveMarker(Marker m) {
 		map.RemoveMarker(m);
+	}
+	void InsertMineMarkers() {
+		//Remove any mines that are on the map
+		MineMarkers.ForEach(delegate(Marker obj) {
+			RemoveMarker(obj);
+		});
+		MineMarkers.Clear();
+		//Get each mine, put it in a marker, add it to a list
+		Saved ().mines.ForEach(delegate(Mine obj) {
+			MineMarkers.Add(PlaceMine("", obj.GetCoordinatesPlaced()));
+		});
 	}
 }
