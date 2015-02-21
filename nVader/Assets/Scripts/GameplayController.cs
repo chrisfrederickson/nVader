@@ -22,7 +22,7 @@ public class GameplayController : MonoBehaviour {
 	public float LocationAccuracy = 0.01f; 
 	public Button HarvestMine;
 	private Marker BeaconMarker;
-	private List<Marker> MineMarkers;
+	private List<Marker> MineMarkers = null;
 
 	// Use this for initialization
 	void Start () {
@@ -351,10 +351,12 @@ public class GameplayController : MonoBehaviour {
 	}
 	void InsertMineMarkers() {
 		//Remove any mines that are on the map
-		MineMarkers.ForEach(delegate(Marker obj) {
-			RemoveMarker(obj);
-		});
-		MineMarkers.Clear();
+		if(MineMarkers != null) {
+			MineMarkers.ForEach(delegate(Marker obj) {
+				RemoveMarker(obj);
+			});
+			MineMarkers.Clear();
+		}
 		//Get each mine, put it in a marker, add it to a list
 		Saved ().mines.ForEach(delegate(Mine obj) {
 			MineMarkers.Add(PlaceMine("", obj.GetCoordinatesPlaced()));
