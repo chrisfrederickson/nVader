@@ -31,16 +31,30 @@ public class GameSave {
 		bf.Serialize (file, Savefile.current);
 	}
 	public static void Load() {
+		Debug.Log ("Trying to load");
 		if (File.Exists (Application.persistentDataPath + "/" + fileName + "." + fileExtension)) {
-			BinaryFormatter bf = new BinaryFormatter ();
-			FileStream file = File.Open (Application.persistentDataPath + "/" + fileName + "." + fileExtension, FileMode.Open);
-			savedGame = (Savefile)bf.Deserialize (file);
-			file.Close ();
+			RecreateLoad();
 		} else {
-			savedGame = new Savefile();
-			Save ();
+			RecreateSave();
 		}
+		if (savedGame.mines == null || savedGame.resources == null)
+			RecreateSave();
+
+		Debug.Log ("Mines: " + savedGame.mines.Count + "; Resources: " + savedGame.resources.Count);
+	}
+	public static void RecreateLoad() {
+		Debug.Log("Loading");
+		BinaryFormatter bf = new BinaryFormatter ();
+		FileStream file = File.Open (Application.persistentDataPath + "/" + fileName + "." + fileExtension, FileMode.Open);
+		savedGame = (Savefile)bf.Deserialize (file);
+		file.Close ();
+	}
+	public static void RecreateSave() {
+		Debug.Log ("Creating new save file");
+		savedGame = new Savefile();
+		Save ();
 	}
 }
+
 
 

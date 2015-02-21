@@ -1,3 +1,4 @@
+[System.Serializable]
 public class Resource {
 	private string Name;
 	private int Value;
