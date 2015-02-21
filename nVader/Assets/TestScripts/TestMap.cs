@@ -178,12 +178,7 @@ public class TestMap : MonoBehaviour
 		map.ShowGUIControls = true;
 		map.IsDirty = true;
 		map.UpdateCenterWithLocation = true;
-<<<<<<< HEAD
-		Debug.Log ("Use location? " + map.UseLocation);
-		UnityEngine.Input.location.Start ();
-		//while(UnityEngine.Input.location.status != LocationServiceStatus.Running)
-			Debug.Log("Waiting for location");
-=======
+
 		// Start service before querying location
 		Input.location.Start ();
 		Debug.Log ("Is location enabled by user?" + Input.location.isEnabledByUser);
@@ -227,7 +222,7 @@ public class TestMap : MonoBehaviour
 		if(Input.location.status == LocationServiceStatus.Running) {
 			Debug.Log ("Location is active");
 		}
->>>>>>> dfae518ff062e076caea4a0fd8d9156b70cb392a
+
 		Debug.Log ("Is location running? " + (UnityEngine.Input.location.status == LocationServiceStatus.Running));
 		Debug.Log ("Updating location? " + map.UpdateCenterWithLocation);
 		map.CenterOnLocation ();
