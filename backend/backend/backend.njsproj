@@ -31,6 +31,7 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="gis.js" />
     <Compile Include="server.js" />
     <None Include="nvader.pubxml" />
     <Content Include="Web.config" />

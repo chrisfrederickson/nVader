@@ -1,10 +1,16 @@
 {
-  "name": "backend",
-  "version": "0.0.0",
-  "description": "backend",
-  "main": "server.js",
-  "author": {
-    "name": "sciki_000",
-    "email": ""
-  }
+    "name": "nvader",
+    "version": "0.0.0",
+    "description": "backend for nVader",
+    "main": "server.js",
+    "author": {
+        "name": "Max Bareiss",
+        "email": ""
+    },
+    "dependencies": {
+        "mssql": "2.1.x",
+        "express": "4.x.x",
+        "body-parser": "1.12.x",
+        "coordinator": "0.4.x"
+    }
 }
