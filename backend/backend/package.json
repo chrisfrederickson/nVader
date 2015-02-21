@@ -1,0 +1,10 @@
+{
+  "name": "backend",
+  "version": "0.0.0",
+  "description": "backend",
+  "main": "server.js",
+  "author": {
+    "name": "sciki_000",
+    "email": ""
+  }
+}
