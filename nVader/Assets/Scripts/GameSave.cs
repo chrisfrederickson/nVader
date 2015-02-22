@@ -11,11 +11,14 @@ public class Savefile {
 	public int hi = 0;
 	public List<Mine> mines;
 	public List<Resource> resources;
+	public List<string> usedLandmarks;
 
 	public Savefile() {
 		hi = 1;
-		List<Mine> mines = new List<Mine>();
-		List<Resource> resources = new List<Resource>();
+		mines = new List<Mine>();
+		resources = new List<Resource>();
+		resources.Add (new TimeEnergy (0));
+		usedLandmarks = new List<string> ();
 	}
 }
 //From http://gamedevelopment.tutsplus.com/tutorials/how-to-save-and-load-your-players-progress-in-unity--cms-20934
@@ -41,7 +44,7 @@ public class GameSave {
 		} else {
 			RecreateSave();
 		}
-		if (savedGame.mines == null || savedGame.resources == null)
+		if (savedGame.resources == null)
 			RecreateSave();
 
 		Debug.Log ("Mines: HI:");// + savedGame.mines.Count + "; Resources: " + savedGame.resources.Count

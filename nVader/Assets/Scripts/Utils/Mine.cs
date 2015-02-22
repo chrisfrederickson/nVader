@@ -4,9 +4,9 @@ using System.IO;
 
 [System.Serializable]
 public class Mine {
-	private int TimeRate;
-	private int Year = 2015;
-	private int YEAR_START = 3015;
+	//private int TimeRate;
+	//private int Year = 2015;
+	//private int YEAR_START = 3015;
 	private long TimePlaced;
 	private long HarvestTime;
 	private double[] CoordinatesPlaced;
@@ -14,7 +14,7 @@ public class Mine {
 
 	public Mine(int harvest, double[] d, Landmark l) {
 		TimePlaced = DateTime.Now.Ticks;
-		HarvestTime = TimePlaced + harvest*10000/*ms*/*1000/*s*/*60*60;
+		HarvestTime = TimePlaced + harvest*10000/*ms*/*1000/*s*60*60*/;
 		Location = l;
 		CoordinatesPlaced = d;
 	}
