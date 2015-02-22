@@ -64,6 +64,13 @@ sql.connect(config, function (err) {
                 console.log(err);
                 return;
             }
+            if (recordset.length == 0) {
+                res.send("{\"none\":true}");
+                console.log("NONE!");
+                console.log(query);
+                return;
+            }
+            console.log(recordset);
             var sql_req2 = new sql.Request();
             Package.dist = Math.sqrt(Math.pow(recordset[0].UTM_easting - easting, 2) + Math.pow(recordset[0].UTM_northing - northing, 2));
             sql_req2.query("SELECT Resname FROM dbo.main WHERE CAST(Refnum AS INT) =" + recordset[0].Refnum, function (err, recordset2) {
