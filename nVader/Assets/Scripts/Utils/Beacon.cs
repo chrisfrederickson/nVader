@@ -1,3 +1,4 @@
+[System.Serializable]
 public class Beacon {
 	private Landmark Location;
 

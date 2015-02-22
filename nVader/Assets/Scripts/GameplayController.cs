@@ -17,7 +17,6 @@ public class GameplayController : MonoBehaviour {
 		// Forces a different code path in the BinaryFormatter that doesn't rely on run-time code generation (which would break on iOS).
 		Environment.SetEnvironmentVariable("MONO_REFLECTION_SERIALIZER", "yes");
 	}
-	private Text MinesLeft; //Unused
 	public int MineInventory = 3;
 	public float LocationAccuracy = 0.01f; 
 	public Button HarvestMine;
@@ -35,12 +34,11 @@ public class GameplayController : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update2 () {
+	void Update () {
 		UpdateMap ();
 		if (!IsLocationEnabled()) 
 			return;
-		Debug.Log (MinesLeft + " mines left");
-		Debug.Log (GetMinesLeft ());
+		Debug.Log (GetMinesLeft() + " mines left");
 		if (Input.GetButtonDown ("Mine") && GetMinesLeft () != 0) {
 			PlaceMine("Name");
 			//TODO Get data about location
@@ -61,7 +59,7 @@ public class GameplayController : MonoBehaviour {
 
 		//Check if any mines are nearby to harvest 
 		Saved ().mines.ForEach ( delegate(Mine m) {
-			if(LocationClose (m.GetCoordinatesPlaced(), MyLocation(), LocationAccuracy)) {
+			if(LocationClose (m.GetCoordinatesPlaced(), MyLocation(), LocationAccuracy)) { //TODO AND Havest time
 				//Harvest Mine Bttn appears
 				HarvestMine.enabled = true;
 				if(Input.GetButtonDown("HarvestMine")) {
@@ -83,7 +81,10 @@ public class GameplayController : MonoBehaviour {
 		return (Mathf.Abs((float) c1[0] - (float) c2[0]) < accuracy) && (Mathf.Abs((float) c1[1] - (float) c2[1]) < accuracy);
 	}
 	int GetMinesLeft() {
-		return MineInventory - Saved ().mines.Count;
+		if (Saved ().mines != null)
+			return MineInventory - Saved ().mines.Count;
+		else
+			return MineInventory;
 	}
 	Savefile Saved() {
 		return GameSave.savedGame;
@@ -102,7 +103,7 @@ public class GameplayController : MonoBehaviour {
 		}
 	}
 	void SetMine(Landmark l) {
-		Saved().mines.Add(new Mine(10, 6, MyLocation(), l));
+		Saved().mines.Add(new Mine(6, MyLocation(), l));
 		//TODO Set a delayed notification for later
 		GameSave.Save ();
 	}
@@ -358,8 +359,10 @@ public class GameplayController : MonoBehaviour {
 			MineMarkers.Clear();
 		}
 		//Get each mine, put it in a marker, add it to a list
-		Saved ().mines.ForEach(delegate(Mine obj) {
-			MineMarkers.Add(PlaceMine("", obj.GetCoordinatesPlaced()));
-		});
+		if(Saved ().mines != null) {
+			Saved ().mines.ForEach(delegate(Mine obj) {
+				MineMarkers.Add(PlaceMine("", obj.GetCoordinatesPlaced()));
+			});
+		}
 	}
 }

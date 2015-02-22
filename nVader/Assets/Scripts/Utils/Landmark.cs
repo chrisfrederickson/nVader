@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
-
+[System.Serializable]
 public class Landmark {
 	private string Title;
 	private string Description;

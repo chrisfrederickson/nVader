@@ -12,15 +12,11 @@ public class Mine {
 	private double[] CoordinatesPlaced;
 	private Landmark Location;
 
-	public Mine(int points, int harvest, double[] d, Landmark l) {
-		TimeRate = YEAR_START - points;
+	public Mine(int harvest, double[] d, Landmark l) {
 		TimePlaced = DateTime.Now.Ticks;
 		HarvestTime = TimePlaced + harvest*10000/*ms*/*1000/*s*/*60*60;
 		Location = l;
 		CoordinatesPlaced = d;
-	}
-	public int GetTimeRate() {
-		return TimeRate;
 	}
 	public double[] GetCoordinatesPlaced() {
 		return CoordinatesPlaced;

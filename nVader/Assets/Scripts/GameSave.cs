@@ -44,7 +44,9 @@ public class GameSave {
 		if (savedGame.mines == null || savedGame.resources == null)
 			RecreateSave();
 
-		Debug.Log ("Mines: " + savedGame.mines.Count + "; Resources: " + savedGame.resources.Count);
+		Debug.Log ("Mines: HI:");// + savedGame.mines.Count + "; Resources: " + savedGame.resources.Count
+		Debug.Log (savedGame.mines == null);
+		Debug.Log (savedGame.hi);
 	}
 	public static void ReadFile() {
 		Debug.Log("Loading - V6+");
@@ -52,14 +54,14 @@ public class GameSave {
 
 		BinaryFormatter bf = new BinaryFormatter ();
 		FileStream file = File.Open (Application.persistentDataPath + "/" + fileName + "." + fileExtension, FileMode.Open);
-		try {
+		//try {
 			savedGame = (Savefile)bf.Deserialize (file);
+			file.Close ();
+		//} catch(IOException e) {
+		//	Debug.Log ("Error loading: "+e.Message);
+		//	RecreateSave();
+		//}
 
-		} catch(IOException e) {
-			Debug.Log ("Error loading: "+e.Message);
-			RecreateSave();
-		}
-		file.Close ();
 	}
 	public static void RecreateSave() {
 		Debug.Log ("Creating new save file");
