@@ -27,10 +27,11 @@ A landmark is a location that is notable
 
 | Method | Param | Return | Description |
 | :--- | :--- | :--- | :--- |
-| `Landmark` | `string` Title, `string` Description, `List<Resource>` Resources | `Landmark` | Constructor |
+| `Landmark` | `string` Title, `string` Description, `List<Resource>` Resources, `int` BuildYear | `Landmark` | Constructor |
 | `GetTitle` | | `string` | Returns title of landmark |
 | `GetDescription` | | `string` | Returns description of landmark |
 | `GetResources` | | `List<Resource>` | Returns a list of resources that are available at this landmark |
+| `GetBuildYear` | | `int` | Year the landmark was built |
 
 #### Utils/Beacon
 A beacon is a device which identifies any notable local areas
@@ -61,7 +62,11 @@ A mine is a device which is able to harvest various types of resources from a gi
 `GET http://nvader.azurewebsites.net/goodies?lat={latitude}&lon={longitude}`
 Returns a JSON object
 
-    {"dist":252.96047122030745,"name":"Powelton Historic District","description":"Powelton Village is a neighborhood of mostly Victorian, mostly twin homes in the West Philadelphia section of the United States city of Philadelphia, Pennsylvania. It is a national historic district which is part of University City. It extends north from Market Street to Spring Garden Street, east to 32nd Street, west to 40th and Spring Garden Streets, and to 44th and Market Streets.","wikiArticle":"Powelton_Village,_Philadelphia","buildDate":"1902"}
+    {"dist":252.96047122030745,
+    "name":"Powelton Historic District",
+    "description":"Powelton Village is a neighborhood of mostly Victorian, mostly twin homes in the West Philadelphia section of the United States city of Philadelphia, Pennsylvania. It is a national historic district which is part of University City. It extends north from Market Street to Spring Garden Street, east to 32nd Street, west to 40th and Spring Garden Streets, and to 44th and Market Streets.",
+    "wikiArticle":"Powelton_Village,_Philadelphia",
+    "buildDate":"1902"}
      
 
 ### Object Parameters
