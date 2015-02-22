@@ -46,7 +46,7 @@ A mine is a device which is able to harvest various types of resources from a gi
 
 | Method | Param | Return | Description |
 | :--- | :--- | :--- | :--- |
-| `Mine` | `int` points, `int` harvest, `double[]` coordinates, `Landmark` location | `Mine` | Constructor containing number of hours to harvest, coordinates of location, and the given landmark |
+| `Mine` |`int` harvest, `double[]` coordinates, `Landmark` location | `Mine` | Constructor containing number of hours to harvest, coordinates of location, and the given landmark |
 | `GetCoordinatesPlaced` | | `double[]` | Returns a double array giving the current position of the mine |
 | `GetHarvestTime` | | `long` | The time in 'ticks' when the mine will finish harvesting the resources | 
 | `GetTimePlaced` | | `long` | The time in 'ticks' when the mine was first placed |
