@@ -39,6 +39,7 @@ public class GameplayController : MonoBehaviour {
 		HarvestMine.gameObject.SetActive (false);
 		InsertMineMarkers ();
 		GetAudioSourceReflection ().Stop ();
+		GetFoursquare ();
 	}
 	
 	// Update is called once per frame
@@ -491,5 +492,32 @@ public class GameplayController : MonoBehaviour {
 		//Show Mine button.
 		return ClosestLandmark;
 	}
+	/** 4[] **/
+	public void GetFoursquare() {
+			//https://api.foursquare.com/v2/venues/search?ll=40.7,-74&client_id=GV35BUZ24ZUAZTTD13PF2QMSETQPDJERWWNKDJGYS05GAW32&client_secret=GTNL5RTRJ0OC3HGYWAQZGBL0M3S0CPCLE3CLRTMZ1HORHMGS&v=20150222
+			string url = "https://api.foursquare.com/v2/venues/search?ll=" + MyLocation () [1] + "," + MyLocation () [0] + "&client_id=GV35BUZ24ZUAZTTD13PF2QMSETQPDJERWWNKDJGYS05GAW32&client_secret=GTNL5RTRJ0OC3HGYWAQZGBL0M3S0CPCLE3CLRTMZ1HORHMGS&v=20150222";
+			WWW www = new WWW(url);
+			StartCoroutine(WaitForGETRequest(www));
+		}
+		IEnumerator WaitFor4SRequest(WWW www)
+		{
+			yield return www;
+			
+			// check for errors
+			if (www.error == null)
+			{
+				Debug.Log("WWW Ok!: " + www.text);
+				Handle4S(www.text);
+			} else {
+				//FindClosestLandmark();
+				Debug.Log("WWW Error: "+ www.error);
+			}    
+		}
+		public void Handle4S(String WebData) {
+			var response = JSON.Parse (WebData);
+			var venues = response ["response"] ["venues"];
+			var first = venues [0];
+			AddPopup ("Nearby Stuff", first ["name"] + " is nearby. Check it out sometime!");
+		}
 }
 	
