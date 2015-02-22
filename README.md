@@ -51,3 +51,8 @@ A mine is a device which is able to harvest various types of resources from a gi
 | `GetTimePlaced` | | `long` | The time in 'ticks' when the mine was first placed |
 | `GetPairedLandmark` | | `Landmark` | Returns the landmark that the mine is connected to |
 
+#### TextPopup
+| Method | Param | Return | Description |
+| :--- | :--- | :--- | :--- |
+| `DisplayTextAndTitle` | `string` title, `string` text | | Makes text popup with title and text visible. |
+| `DisplayText` | `string` text | | Makes text popup with text visible. |
