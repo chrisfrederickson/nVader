@@ -22,23 +22,26 @@ public class GameplayController : MonoBehaviour {
 	public Button HarvestMine;
 	private Marker BeaconMarker;
 	private List<Marker> MineMarkers = null;
-
+	private float MAP_CURRENT_ZOOM = 15.0f;
+	//public AudioClip buttonBloop;
+	//TODO One beacon at a time
 	// Use this for initialization
 	void Start () {
 		StartCoroutine(StartMapManager());
 		GameSave.Load ();
 		GameSave.Save ();
 		UpdateMineInventory ();
-		HarvestMine.enabled = false;
+		HarvestMine.gameObject.SetActive (false);
 		InsertMineMarkers ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		UpdateMap ();
+//		Debug.Log (map.CurrentZoom+", "+map.MinZoom+", "+map.MaxZoom);
 		if (!IsLocationEnabled()) 
 			return;
-		Debug.Log (GetMinesLeft() + " mines left");
+		//Debug.Log (GetMinesLeft() + " mines left");
 		if (Input.GetButtonDown ("Mine") && GetMinesLeft () != 0) {
 			PlaceMine("Name");
 			//TODO Get data about location
@@ -48,28 +51,21 @@ public class GameplayController : MonoBehaviour {
 			//TODO Spit error back to the user
 		}
 
-		if (Input.GetButtonDown ("Beacon")) {
-			if(BeaconMarker != null)
-				RemoveMarker(BeaconMarker);
-			BeaconMarker = PlaceBeacon("");
-			//TODO Beacon Display
-			//TODO Animation
-			//TODO After some time pull up info
-		}
-
-		//Check if any mines are nearby to harvest 
-		Saved ().mines.ForEach ( delegate(Mine m) {
-			if(LocationClose (m.GetCoordinatesPlaced(), MyLocation(), LocationAccuracy)) { //TODO AND Havest time
-				//Harvest Mine Bttn appears
-				HarvestMine.enabled = true;
-				if(Input.GetButtonDown("HarvestMine")) {
-					//You obtain stuff!
-					MergeResources(m.GetPairedLandmark().GetResources());
+		if (Saved ().mines != null) {
+			//Check if any mines are nearby to harvest 
+			Saved ().mines.ForEach (delegate(Mine m) {
+				if (LocationClose (m.GetCoordinatesPlaced (), MyLocation (), LocationAccuracy)) { //TODO AND Havest time
+					//Harvest Mine Bttn appears
+					HarvestMine.gameObject.SetActive (true);
+					if (Input.GetButtonDown ("HarvestMine")) {
+						//You obtain stuff!
+						MergeResources (m.GetPairedLandmark ().GetResources ());
+					}
+				} else {
+					HarvestMine.gameObject.SetActive(false); 
 				}
-			} else {
-				HarvestMine.enabled = false;
-			}
-		});
+			});
+		}
 	}
 	double[] MyLocation() {
 		return new double[2] { UnityEngine.Input.location.lastData.longitude, UnityEngine.Input.location.lastData.latitude };
@@ -145,17 +141,11 @@ public class GameplayController : MonoBehaviour {
 	private static int BEACON = 278;
 
 	IEnumerator StartMapManager() {
-		// setup the gui scale according to the screen resolution
-		guiXScale = (Screen.orientation == ScreenOrientation.Landscape ? Screen.width : Screen.height) / 480.0f;
-		guiYScale = (Screen.orientation == ScreenOrientation.Landscape ? Screen.height : Screen.width) / 640.0f;
-		// setup the gui area
-		guiRect = new Rect(16.0f * guiXScale, 4.0f * guiXScale, Screen.width / guiXScale - 32.0f * guiXScale, 32.0f * guiYScale);
-		
 		// create the map singleton
 		map = Map.Instance;
 		map.CurrentCamera = Camera.main;
 		map.InputDelegate += UnitySlippyMap.Input.MapInput.BasicTouchAndKeyboard;
-		map.CurrentZoom = 30.0f;
+		map.CurrentZoom = MAP_CURRENT_ZOOM;
 		// 9 rue Gentil, Lyon
 		//map.CenterWGS84 = new double[2] { 4.83527, 45.76487 };
 		//Now use GPS
@@ -324,12 +314,21 @@ public class GameplayController : MonoBehaviour {
 		return PlaceMine(name, map.CenterWGS84);
 	}
 	public Marker PlaceMine(String name, double[] coords) {
+		Debug.Log ("Placing a mine at "+coords[0]+", "+coords[1]);
 		return PlaceMarker(name, MINE, coords);
+	}
+	public void BeaconDown() {
+		Debug.Log ("BEACON BUTTON");
+		if(BeaconMarker != null)
+			RemoveMarker(BeaconMarker);
+		BeaconMarker = PlaceBeacon("");
 	}
 	public Marker PlaceBeacon(String name) {
 		return PlaceBeacon(name, map.CenterWGS84);
 	}
 	public Marker PlaceBeacon(String name, double[] coords) {
+
+		Debug.Log ("Beacon "+name+" is being placed on the map at "+coords[0]+", "+coords[1]);
 		return PlaceMarker(name, BEACON, coords);
 	}
 	public Marker PlaceMarker(String name, int type, double[] coords) {
