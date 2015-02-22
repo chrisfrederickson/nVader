@@ -70,19 +70,26 @@ public class GameplayController : MonoBehaviour {
 		GetAudioSourceReflection ().Play ();
 		//TODO Stop after 3 seconds
 		Saved ().mines.ForEach (delegate(Mine m) {
-			Debug.Log("|For Mine @"+m.GetPairedLandmark().GetTitle());
+			Debug.Log("|For Mine @"+m.GetPairedLandmark ().GetTitle ());
 			if (LocationClose (m.GetCoordinatesPlaced (), MyLocation (), LocationAccuracy) && m.GetHarvestTime() < DateTime.Now.Ticks) {
 				//Harvest Mine Bttn appears
 					//You obtain stuff!
 					Saved().mines.Remove(m);
 					MergeResources (m.GetPairedLandmark ().GetResources ());
 					HarvestMine.gameObject.SetActive (false); 
-					Saved ().usedLandmarks.Add(m.GetPairedLandmark().GetTitle());
+				if(Saved().usedLandmarks == null)
+					Saved ().usedLandmarks = new List<String> ();
+				Saved ().usedLandmarks.Add(m.GetPairedLandmark ().GetTitle());
 			} else {
 				HarvestMine.gameObject.SetActive (false); 
 			}
 		});
 		HarvestMine.gameObject.SetActive (false); 
+		Saved ().resources.ForEach (delegate(Resource r) {
+			if(r.GetResourceType ().Equals("TimeEnergy") && r.GetResourceValue () > 5000)
+				AddPopup("Congrats!", "You have enough time energy to travel home, or you can stay on Earth. Thanks for playing!");
+
+		});
 	}
 	double[] MyLocation() {
 		return new double[2] { UnityEngine.Input.location.lastData.longitude, UnityEngine.Input.location.lastData.latitude };
@@ -303,7 +310,11 @@ public class GameplayController : MonoBehaviour {
 		
 		Debug.Log ("Placing a mine at "+coords[0]+", "+coords[1]);
 		Debug.Log ("You have "+GetMinesLeft()+" mines left.");
-		return PlaceMarker(name, MINE, coords);
+		if(MineMarkers == null)
+			MineMarkers = new List<Marker>();	
+		Marker m = PlaceMarker(name, MINE, coords);
+		MineMarkers.Add(m);
+		return m;
 	}
 	public void BeaconDown() {
 		Debug.Log ("BEACON BUTTON");
@@ -317,6 +328,8 @@ public class GameplayController : MonoBehaviour {
 
 		Debug.Log("Mine this: x"+GetMinesLeft());
 		//First, check if this area is depleted:
+		if(Saved().usedLandmarks == null)
+			Saved().usedLandmarks = new List<String>();
 		if(Saved().usedLandmarks.IndexOf(CurrentLandmark.GetTitle()) > -1) {
 			AddPopup("Cannot Place Mine", "You have visited this place before, and all its energy is depleted.");
 			return;
@@ -405,6 +418,15 @@ public class GameplayController : MonoBehaviour {
 					//RemoveMarker(obj);
 					map.RemoveMarker(obj);
 				} else
+					Debug.Log ("It was a map marker that was undefined");
+			});
+		}
+		if(MineMarkers != null) {
+			MineMarkers.ForEach(delegate(Marker obj) {
+				if(obj != null) {
+					//RemoveMarker(obj);
+					RemoveMarker(obj);
+				} else
 					Debug.Log ("It was a mine marker that was undefined");
 			});
 		}
@@ -415,9 +437,6 @@ public class GameplayController : MonoBehaviour {
 			Saved ().mines.ForEach(delegate(Mine obj) {
 				Debug.Log ("Next mine obj");
 				//if(obj != null) {
-				if(MineMarkers == null)
-					MineMarkers = new List<Marker>();	
-				MineMarkers.Add(PlaceMine("", obj.GetCoordinatesPlaced()));
 				//} else 
 				//	Debug.Log ("It was a mine that was undefined");
 			});
