@@ -65,7 +65,6 @@ Returns a JSON object
     {"dist":252.96047122030745,
     "name":"Powelton Historic District",
     "description":"Powelton Village is a neighborhood of mostly Victorian, mostly twin homes in the West Philadelphia section of the United States city of Philadelphia, Pennsylvania. It is a national historic district which is part of University City. It extends north from Market Street to Spring Garden Street, east to 32nd Street, west to 40th and Spring Garden Streets, and to 44th and Market Streets.",
-    "wikiArticle":"Powelton_Village,_Philadelphia",
     "buildDate":"1902"}
      
 
